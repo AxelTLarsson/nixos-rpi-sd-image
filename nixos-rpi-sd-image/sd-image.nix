@@ -26,9 +26,7 @@
 
   # The installer starts with a "nixos" user to allow installation, so add the SSH key to
   # that user. Note that the key is, at the time of writing, put in `/etc/ssh/authorized_keys.d`
-  # users.extraUsers.nixos.openssh.authorizedKeys.keys = [
-  #   "ssh-ed25519 ..."
-  # ];
+  users.extraUsers.nixos.openssh.authorizedKeys.keys = [ "ssh-ed25519 ..." ];
 
   # Use a default root SSH login.
   # services.openssh.permitRootLogin = "yes";

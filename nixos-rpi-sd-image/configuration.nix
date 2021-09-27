@@ -18,9 +18,41 @@
 
   # The installer starts with a "nixos" user to allow installation, so add the SSH key to
   # that user. Note that the key is, at the time of writing, put in `/etc/ssh/authorized_keys.d`
-  # users.extraUsers.nixos.openssh.authorizedKeys.keys = [
-  #   "ssh-ed25519 ..."
-  # ];
+  users.extraUsers.nixos.openssh.authorizedKeys.keys = [ "ssh-ed25519 ..." ];
+
+  users.users = {
+    axel = {
+      isNormalUser = true;
+      extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+      home = "/home/axel";
+      description = "Axel Larsson";
+      password = "vallon";
+      openssh.authorizedKeys.keys = [ "ssh-ed25519 ..." ];
+    };
+  };
+
+  # Enable the OpenSSH daemon.
+  services.openssh.enable = true;
+
+  # packages to install
+  environment.systemPackages = with pkgs; [ vim ];
+  environment.variables = { EDITOR = "vim"; };
+
+  networking.hostName = "nixpi";
+
+  nix = {
+    autoOptimiseStore = true;
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
+    # Free up to 1GiB whenever there is less than 100MiB left.
+    extraOptions = ''
+      min-free = ${toString (100 * 1024 * 1024)}
+      max-free = ${toString (1024 * 1024 * 1024)}
+    '';
+  };
 
   # Use a default root SSH login.
   # services.openssh.permitRootLogin = "yes";
@@ -59,6 +91,6 @@
   system.stateVersion = "21.03"; # Did you read the comment?
 
   # NGINX sample
-  networking.firewall.allowedTCPPorts = [ 80 ];
-  services.nginx.enable = true;
+  # networking.firewall.allowedTCPPorts = [ 80 ];
+  # services.nginx.enable = true;
 }

@@ -18,7 +18,19 @@
       echo "attempting to fetch configuration from SD image user data..."
 
       export HOME=/root
-      export PATH=${pkgs.lib.makeBinPath [ config.nix.package pkgs.systemd pkgs.gnugrep pkgs.git pkgs.gnutar pkgs.gzip pkgs.gnused config.system.build.nixos-rebuild config.system.build.nixos-generate-config]}:$PATH
+      export PATH=${
+        pkgs.lib.makeBinPath [
+          config.nix.package
+          pkgs.systemd
+          pkgs.gnugrep
+          pkgs.git
+          pkgs.gnutar
+          pkgs.gzip
+          pkgs.gnused
+          config.system.build.nixos-rebuild
+          config.system.build.nixos-generate-config
+        ]
+      }:$PATH
       export NIX_PATH=nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos:nixos-config=/etc/nixos/configuration.nix:/nix/var/nix/profiles/per-user/root/channels
 
       userData=/etc/sd-image-metadata/configuration.nix
@@ -43,6 +55,7 @@
           nixos-generate-config
           echo "setting configuration from SD image user data"
           cp "$userData" "$userDataExtra" /etc/nixos/
+          cat $userData
         else
           echo "user data does not appear to be a Nix expression; ignoring"
           exit
