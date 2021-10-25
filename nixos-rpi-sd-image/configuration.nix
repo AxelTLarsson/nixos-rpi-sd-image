@@ -42,10 +42,13 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  #systemd.network.networks.mynet.networkConfig.MultiCastDNS = true;
-  services.resolved = {
+  # pi reachable as nixpi.local on the local network
+  services.avahi = {
     enable = true;
-    dnssec = "false";
+    publish = {
+      enable = true;
+      addresses = true;
+    };
   };
 
   # packages to install

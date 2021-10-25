@@ -2,6 +2,8 @@
 
 A convenient way to create custom Raspberry Pi NixOS SD images.
 
+❕ **N.B!** Use this to bootstrap the raspberry pi - just to get a basic system working! Then move onto my dotfiles/nixpi/configuration.nix.
+
 So far this has been tested to work with Docker Desktop for Mac and also Docker
 on Linux.
 
