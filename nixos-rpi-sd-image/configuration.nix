@@ -5,6 +5,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     # Needed to continue SD image initialization after installer removes its own unit.
+    # Remove this after first boot!
     ./sd-image-init.nix
   ];
 
@@ -18,7 +19,13 @@
 
   # The installer starts with a "nixos" user to allow installation, so add the SSH key to
   # that user. Note that the key is, at the time of writing, put in `/etc/ssh/authorized_keys.d`
-  users.extraUsers.nixos.openssh.authorizedKeys.keys = [ "ssh-ed25519 ..." ];
+  # users.extraUsers.nixos.openssh.authorizedKeys.keys = [
+  #   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID8afXGSxXnnz5ydf/AHGH65b2SpHvd1bEE6Q5JASQIM axel@axel-mbp16 "
+  # ];
+
+  time.timeZone = "Europe/Stockholm";
+
+  system.autoUpgrade.enable = true;
 
   users.users = {
     axel = {
@@ -26,13 +33,20 @@
       extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
       home = "/home/axel";
       description = "Axel Larsson";
-      password = "vallon";
-      openssh.authorizedKeys.keys = [ "ssh-ed25519 ..." ];
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID8afXGSxXnnz5ydf/AHGH65b2SpHvd1bEE6Q5JASQIM axel@axel-mbp16 "
+      ];
     };
   };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  #systemd.network.networks.mynet.networkConfig.MultiCastDNS = true;
+  services.resolved = {
+    enable = true;
+    dnssec = "false";
+  };
 
   # packages to install
   environment.systemPackages = with pkgs; [ vim ];
@@ -89,8 +103,5 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "21.03"; # Did you read the comment?
-
-  # NGINX sample
-  # networking.firewall.allowedTCPPorts = [ 80 ];
-  # services.nginx.enable = true;
 }
+

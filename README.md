@@ -41,7 +41,8 @@ on Linux.
     journalctl -f -u sd-image-init.service
     ```
 
-4.  Enjoy!
+4.  Manually remove the inclusion of ./sd-image-init.nix in /etc/nixos/configuration.nix otherwise changes will be lost on reboot.
+5.  Enjoy!
 
 ## Credit
 
@@ -57,8 +58,8 @@ NixOS on ARM.
 
 [nixos-generators - one config, multiple formats][]
 
-[@Robertof]: https://github.com/Robertof
-[NixOS on ARM > Building your own image > Compiling through QEMU]: https://nixos.wiki/wiki/NixOS_on_ARM#Compiling_through_QEMU
-[NixOS on a Raspberry Pi: creating a custom SD image with OpenSSH out of the box by @Robertof]: https://rbf.dev/blog/2020/05/custom-nixos-build-for-raspberry-pis/
-[NixOS Docker-based SD image builder]: https://github.com/Robertof/nixos-docker-sd-image-builder
+[@robertof]: https://github.com/Robertof
+[nixos on arm > building your own image > compiling through qemu]: https://nixos.wiki/wiki/NixOS_on_ARM#Compiling_through_QEMU
+[nixos on a raspberry pi: creating a custom sd image with openssh out of the box by @robertof]: https://rbf.dev/blog/2020/05/custom-nixos-build-for-raspberry-pis/
+[nixos docker-based sd image builder]: https://github.com/Robertof/nixos-docker-sd-image-builder
 [nixos-generators - one config, multiple formats]: https://github.com/nix-community/nixos-generators
